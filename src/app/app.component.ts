@@ -8,11 +8,10 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 //import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, MatTableModule, MatButtonModule, MatPaginatorModule],
+  imports: [RouterOutlet, MatTableModule, MatButtonModule, MatPaginatorModule ],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
