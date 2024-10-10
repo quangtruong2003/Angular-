@@ -11,10 +11,14 @@ import { MatPaginator } from '@angular/material/paginator';
 //Dialog
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from './confirm-dialog.component';
+//Edit
+import { EditOverviewDialogComponent } from './edit-overview-dialog.component';
+import { FormsModule } from '@angular/forms';
+import { MatDialogModule } from '@angular/material/dialog';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, MatTableModule, MatButtonModule, MatPaginatorModule,ConfirmDialogComponent ],
+  imports: [RouterOutlet, MatTableModule, MatButtonModule, MatPaginatorModule,ConfirmDialogComponent, EditOverviewDialogComponent, FormsModule, MatDialogModule],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
@@ -231,9 +235,23 @@ export class AppComponent implements OnInit {
     this.dataSource.data = [...this.dataSource.data, newData];
   }
 
-
+  
   editData(element: any) {
-    console.log('Editing:', element);
+    const dialogRef = this.dialog.open(EditOverviewDialogComponent, {
+      width: '500px',
+      data: {...element}
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result){
+        this.dataSource.data = this.dataSource.data.map((item: any) => {
+          if (item.id === result.id) {
+            return result;
+          }
+          return item;
+        });
+      }
+    });
+    // console.log('Editing:', element);
   }
 
   constructor(public dialog: MatDialog) { }
