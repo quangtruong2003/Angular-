@@ -8,10 +8,13 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 //import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+//Dialog
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmDialogComponent } from './confirm-dialog.component';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, MatTableModule, MatButtonModule, MatPaginatorModule ],
+  imports: [RouterOutlet, MatTableModule, MatButtonModule, MatPaginatorModule,ConfirmDialogComponent ],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
@@ -228,19 +231,20 @@ export class AppComponent implements OnInit {
     this.dataSource.data = [...this.dataSource.data, newData];
   }
 
-  removeData() {
-    if (this.dataSource.data.length > 0) {
-      const updatedData = [...this.dataSource.data];
-      updatedData.pop();
-      this.dataSource.data = updatedData;
-    }
-  }
 
   editData(element: any) {
     console.log('Editing:', element);
   }
 
+  constructor(public dialog: MatDialog) { }
   deleteData(element: any) {
-    this.dataSource.data = this.dataSource.data.filter((item: any) => item.id !== element.id);
+    const dialogRef = this.dialog.open(ConfirmDialogComponent);
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result){
+        this.dataSource.data=this.dataSource.data.filter((item: any) => item.id !== element.id);
+      }
+    });
+    //this.dataSource.data = this.dataSource.data.filter((item: any) => item.id !== element.id);
   }
 }
