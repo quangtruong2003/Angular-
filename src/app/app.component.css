@@ -1,0 +1,11 @@
+/* app.component.css */
+
+::ng-deep .mat-mdc-row {
+    transition: background-color 0.2s;
+  }
+  
+  ::ng-deep .mat-mdc-row:hover {
+    background-color: #d2d2d2;
+    cursor: pointer;
+  }
+  
