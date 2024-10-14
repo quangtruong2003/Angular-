@@ -15,6 +15,7 @@ import { ConfirmDialogComponent } from './confirm-dialog.component';
 import { EditOverviewDialogComponent } from './edit-overview-dialog.component';
 import { FormsModule } from '@angular/forms';
 import { MatDialogModule } from '@angular/material/dialog';
+import {ConfirmEditDialogComponent} from './confirmedit-dialog.component';
 //Add
 import { AddOverviewDialogComponent } from './add-overview-dialog.component';
 @Component({
@@ -246,18 +247,25 @@ export class AppComponent implements OnInit {
   editData(element: any) {
     const dialogRef = this.dialog.open(EditOverviewDialogComponent, {
       width: '700px',
-      data: {...element}
+      data: {...element},
+      disableClose: true, // không cho click ra ngoài để tắt dialog
     });
+    
     dialogRef.afterClosed().subscribe(result => {
+      
       if (result){
+        
         this.dataSource.data = this.dataSource.data.map((item: any) => {
           if (item.id === result.id) {
+            
             return result;
           }
+          
           return item;
         });
       }
     });
+    
     // console.log('Editing:', element);
   }
 

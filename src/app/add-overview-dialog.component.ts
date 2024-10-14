@@ -12,38 +12,43 @@ import {
 } from '@angular/material/dialog';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
+import {MatIconModule} from '@angular/material/icon';
 
 @Component({
   selector: 'app-add-overview-dialog',
   standalone: true,
-  imports: [MatButtonModule, MatFormFieldModule, FormsModule, MatInputModule, MatDialogActions, MatDialogClose, MatDialogContent, MatDialogTitle],
+  imports: [MatButtonModule, MatFormFieldModule, FormsModule, MatInputModule, MatDialogActions, MatDialogClose, MatDialogContent, MatDialogTitle, MatIconModule],
   template: `
-    <h2 style="text-align: center;" mat-dialog-title>Add Information</h2>
+    <h2 style="text-align: center;" mat-dialog-title>Add Information
+    <button mat-icon-button mat-dialog-close style="position: absolute; right: 15px;; top: 15px">
+    <mat-icon>close</mat-icon>
+  </button>
+    </h2>
     <mat-dialog-content>
-      <p>Name:</p>
-      <mat-form-field style="width:500px">
-        <input matInput [(ngModel)]="data.full_name" placeholder="Nhập tên">
-      </mat-form-field><br>
-      <p>Age:</p>
-      <mat-form-field style="width:500px">
-        <input matInput [(ngModel)]="data.age" placeholder="Nhập tuổi">
-      </mat-form-field><br>
-      <p>Major:</p>
-      <mat-form-field style="width:500px">
-        <input matInput [(ngModel)]="data.major" placeholder="Nhập nghề">
-      </mat-form-field><br>
-      <p>Email:</p>
-      <mat-form-field style="width:500px">
-        <input matInput [(ngModel)]="data.email" placeholder="Nhập Mail">
-      </mat-form-field><br>
-      <p>Phone number:</p>
-      <mat-form-field style="width:500px">
-        <input matInput [(ngModel)]="data.phone_number" placeholder="Nhập số điện thoại">
-      </mat-form-field><br>
-      <p>Address:</p>
-      <mat-form-field style="width:500px">
-        <input matInput [(ngModel)]="data.address" placeholder="Nhập địa chỉ">
-      </mat-form-field><br>
+        <mat-form-field style="width: 500px;">
+            <mat-label>Name:</mat-label>
+            <input matInput [(ngModel)]="data.full_name" cdkFocusInitial/>
+        </mat-form-field><br>
+        <mat-form-field style="width: 500px;">
+            <mat-label>Age:</mat-label>
+            <input matInput [(ngModel)]="data.age" />
+        </mat-form-field><br>
+        <mat-form-field style="width: 500px;">
+            <mat-label>Major:</mat-label>
+            <input matInput [(ngModel)]="data.major" />
+        </mat-form-field><br>
+        <mat-form-field style="width: 500px;">
+            <mat-label>Email:</mat-label>
+            <input matInput [(ngModel)]="data.email" />
+        </mat-form-field><br>
+        <mat-form-field style="width: 500px;">
+            <mat-label>Phone number:</mat-label>
+            <input matInput [(ngModel)]="data.phone_number" />
+        </mat-form-field><br>
+        <mat-form-field style="width: 500px;">
+            <mat-label>Address:</mat-label>
+            <input matInput [(ngModel)]="data.address" />
+        </mat-form-field><br>
     </mat-dialog-content>
     <mat-dialog-actions>
       <button mat-button (click)="onNoClick()">Cancel</button>
@@ -67,6 +72,7 @@ export class AddOverviewDialogComponent {
     ){}
   
   onNoClick(): void {
+    
     this.dialogRef.close();
   }
   
