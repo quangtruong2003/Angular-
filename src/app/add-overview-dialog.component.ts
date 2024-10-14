@@ -14,11 +14,11 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 
 @Component({
-  selector: 'app-edit-overview-dialog',
+  selector: 'app-add-overview-dialog',
   standalone: true,
   imports: [MatButtonModule, MatFormFieldModule, FormsModule, MatInputModule, MatDialogActions, MatDialogClose, MatDialogContent, MatDialogTitle],
   template: `
-    <h2 style="text-align: center;" mat-dialog-title>Edit Information</h2>
+    <h2 style="text-align: center;" mat-dialog-title>Add Information</h2>
     <mat-dialog-content>
       <p>Name:</p>
       <mat-form-field style="width:500px">
@@ -51,11 +51,20 @@ import {MatInputModule} from '@angular/material/input';
     </mat-dialog-actions>
   `,
 })
-export class EditOverviewDialogComponent {
-  constructor(
-    public dialogRef: MatDialogRef<EditOverviewDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any
-  ){}
+export class AddOverviewDialogComponent {
+    data: any = {
+        full_name: '',
+        age: '',
+        major: '',
+        email: '',
+        phone_number: '',
+        address: ''
+
+    };
+    constructor(
+        public dialogRef: MatDialogRef<AddOverviewDialogComponent>,
+        @Inject(MAT_DIALOG_DATA) public incomingData: any
+    ){}
   
   onNoClick(): void {
     this.dialogRef.close();

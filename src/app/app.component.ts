@@ -15,10 +15,12 @@ import { ConfirmDialogComponent } from './confirm-dialog.component';
 import { EditOverviewDialogComponent } from './edit-overview-dialog.component';
 import { FormsModule } from '@angular/forms';
 import { MatDialogModule } from '@angular/material/dialog';
+//Add
+import { AddOverviewDialogComponent } from './add-overview-dialog.component';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, MatTableModule, MatButtonModule, MatPaginatorModule,ConfirmDialogComponent, EditOverviewDialogComponent, FormsModule, MatDialogModule],
+  imports: [RouterOutlet, MatTableModule, MatButtonModule, MatPaginatorModule,ConfirmDialogComponent, EditOverviewDialogComponent, FormsModule, MatDialogModule, AddOverviewDialogComponent],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
@@ -223,22 +225,27 @@ export class AppComponent implements OnInit {
   }
 
   addData() {
-    const newData = {
-      "id": this.dataSource.data.length + 1,
-      "full_name": "New Student",
-      "age": 19,
-      "major": "Unknown",
-      "email": "newstudent@example.com",
-      "phone_number": "0900000000",
-      "address": "Unknown"
-    };
-    this.dataSource.data = [...this.dataSource.data, newData];
+    const dialogRef = this.dialog.open(AddOverviewDialogComponent, {
+      width: '800px',
+    });
+  
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        const newId = this.dataSource.data.length > 0
+          ? Math.max(...this.dataSource.data.map((item: any) => item.id)) + 1
+          : 1;
+  
+        const newData = { id: newId, ...result };
+        this.dataSource.data = [...this.dataSource.data, newData];
+      }
+    });
   }
+  
 
   
   editData(element: any) {
     const dialogRef = this.dialog.open(EditOverviewDialogComponent, {
-      width: '500px',
+      width: '700px',
       data: {...element}
     });
     dialogRef.afterClosed().subscribe(result => {
