@@ -13,11 +13,20 @@ import {
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {MatIconModule} from '@angular/material/icon';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import {AsyncPipe} from '@angular/common';
+import {FormControl, ReactiveFormsModule} from '@angular/forms';
+import {Observable} from 'rxjs';
+import {map, startWith} from 'rxjs/operators';
+
+export interface Major {
+  name: string;
+}
 
 @Component({
   selector: 'app-add-overview-dialog',
   standalone: true,
-  imports: [MatButtonModule, MatFormFieldModule, FormsModule, MatInputModule, MatDialogActions, MatDialogClose, MatDialogContent, MatDialogTitle, MatIconModule],
+  imports: [MatButtonModule, MatFormFieldModule, FormsModule, MatInputModule, MatDialogActions, MatDialogClose, MatDialogContent, MatDialogTitle, MatIconModule, MatAutocompleteModule, AsyncPipe, ReactiveFormsModule],
   template: `
     <h2 style="text-align: center;" mat-dialog-title>Add Information
     <button mat-icon-button mat-dialog-close style="position: absolute; right: 15px;; top: 15px">
@@ -27,7 +36,7 @@ import {MatIconModule} from '@angular/material/icon';
     <mat-dialog-content>
         <mat-form-field style="width: 500px;">
             <mat-label>Name:</mat-label>
-            <input matInput [(ngModel)]="data.full_name" cdkFocusInitial/>
+            <input matInput [(ngModel)]="data.full_name" cdkFocusInitial />
         </mat-form-field><br>
         <mat-form-field style="width: 500px;">
             <mat-label>Age:</mat-label>
@@ -35,7 +44,17 @@ import {MatIconModule} from '@angular/material/icon';
         </mat-form-field><br>
         <mat-form-field style="width: 500px;">
             <mat-label>Major:</mat-label>
-            <input matInput [(ngModel)]="data.major" />
+            <input
+              type="text"
+              matInput
+              [formControl]="myControl"
+              [matAutocomplete]="auto"
+            />
+            <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+              @for (option of filteredOptions | async; track option) {
+                <mat-option [value]="option">{{option.name}}</mat-option>
+              }
+            </mat-autocomplete>
         </mat-form-field><br>
         <mat-form-field style="width: 500px;">
             <mat-label>Email:</mat-label>
@@ -57,6 +76,7 @@ import {MatIconModule} from '@angular/material/icon';
   `,
 })
 export class AddOverviewDialogComponent {
+  
     data: any = {
         full_name: '',
         age: '',
@@ -69,8 +89,18 @@ export class AddOverviewDialogComponent {
     constructor(
         public dialogRef: MatDialogRef<AddOverviewDialogComponent>,
         @Inject(MAT_DIALOG_DATA) public incomingData: any
-    ){}
+    ){
+    }
+    displayFn(major: Major): string {
+      return major && major.name ? major.name : '';
+    }
   
+    private _filter(name: string): Major[] {
+      const filterValue = name.toLowerCase();
+      return this.options.filter((option) =>
+        option.name.toLowerCase().includes(filterValue)
+      );
+    }
   onNoClick(): void {
     
     this.dialogRef.close();
@@ -79,4 +109,37 @@ export class AddOverviewDialogComponent {
   onSaveClick(): void {
     this.dialogRef.close(this.data);
   }
+  myControl = new FormControl<string | Major>('');
+  options: Major[] = [
+    { name: 'Computer Science' },
+    { name: 'Mathematics' },
+    { name: 'Physics' },
+    { name: 'Biology' },
+    { name: 'Chemistry' },
+    { name: 'Engineering' },
+    { name: 'Art' },
+    { name: 'Music' },
+    { name: 'Dance' },
+    { name: 'Theater' },
+    { name: 'Film' },
+    { name: 'History' },
+    { name: 'Political Science' },
+    { name: 'Economics' },
+    { name: 'Psychology' },
+    { name: 'Sociology' },
+    { name: 'Anthropology' },
+    { name: 'Philosophy' },
+    { name: 'Religion' },
+  ];
+  filteredOptions: Observable<Major[]> | undefined;
+  ngOnInit() {
+    this.filteredOptions = this.myControl.valueChanges.pipe(
+      startWith(''),
+      map(value => {
+        const name = typeof value === 'string' ? value : value?.name;
+        return name ? this._filter(name as string) : this.options.slice();
+      }),
+    );
+  }
+  
 }
