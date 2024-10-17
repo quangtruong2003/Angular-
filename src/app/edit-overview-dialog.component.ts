@@ -193,8 +193,6 @@ export class EditOverviewDialogComponent implements OnInit {
   onSaveClick(): void {
     if (this.form.valid) {
       this.dialogRef.close(this.form.value);
-    } else {
-      this.form.markAllAsTouched();
     }
   }
 }
