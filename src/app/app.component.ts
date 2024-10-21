@@ -225,49 +225,86 @@ export class AppComponent implements OnInit {
     this.dataSource.paginator = this.paginator;
   }
 
-  addData() {
-    const dialogRef = this.dialog.open(AddOverviewDialogComponent, {
-      width: '800px',
-    });
+  // addData() {
+  //   const dialogRef = this.dialog.open(AddOverviewDialogComponent, {
+  //     width: '800px',
+  //   });
   
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        const newId = this.dataSource.data.length > 0
-          ? Math.max(...this.dataSource.data.map((item: any) => item.id)) + 1
-          : 1;
+  //   dialogRef.afterClosed().subscribe((result) => {
+  //     if (result) {
+  //       const newId = this.dataSource.data.length > 0
+  //         ? Math.max(...this.dataSource.data.map((item: any) => item.id)) + 1
+  //         : 1;
   
-        const newData = { id: newId, ...result };
-        this.dataSource.data = [...this.dataSource.data, newData];
-      }
-    });
-  }
+  //       const newData = { id: newId, ...result };
+  //       this.dataSource.data = [...this.dataSource.data, newData];
+  //     }
+  //   });
+  // }
   
 
   
-  editData(element: any) {
-    const dialogRef = this.dialog.open(EditOverviewDialogComponent, {
-      width: '700px',
-      data: {...element},
-      disableClose: true, // không cho click ra ngoài để tắt dialog
-    });
+  // editData(element: any) {
+  //   const dialogRef = this.dialog.open(EditOverviewDialogComponent, {
+  //     width: '800px',
+  //     data: {...element},
+  //     disableClose: true, // không cho click ra ngoài để tắt dialog
+  //   });
     
-    dialogRef.afterClosed().subscribe(result => {
+  //   dialogRef.afterClosed().subscribe(result => {
       
-      if (result){
+  //     if (result){
         
-        this.dataSource.data = this.dataSource.data.map((item: any) => {
-          if (item.id === result.id) {
+  //       this.dataSource.data = this.dataSource.data.map((item: any) => {
+  //         if (item.id === result.id) {
             
-            return result;
-          }
+  //           return result;
+  //         }
           
-          return item;
-        });
-      }
-    });
+  //         return item;
+  //       });
+  //     }
+  //   });
     
-    // console.log('Editing:', element);
+  //   // console.log('Editing:', element);
+  // }
+
+
+  manageData(element?: any) {
+    if (element) {
+      // Edit existing data
+      const dialogRef = this.dialog.open(EditOverviewDialogComponent, {
+        width: '800px',
+        data: { ...element },
+        disableClose: true,
+      });
+
+      dialogRef.afterClosed().subscribe((result) => {
+        if (result) {
+          this.dataSource.data = this.dataSource.data.map((item: any) =>
+            item.id === result.id ? result : item
+          );
+        }
+      });
+    } else {
+      // Add new data
+      const dialogRef = this.dialog.open(AddOverviewDialogComponent, {
+        width: '800px',
+      });
+
+      dialogRef.afterClosed().subscribe((result) => {
+        if (result) {
+          const newId = this.dataSource.data.length > 0
+            ? Math.max(...this.dataSource.data.map((item: any) => item.id)) + 1
+            : 1;
+
+          const newData = { id: newId, ...result };
+          this.dataSource.data = [...this.dataSource.data, newData];
+        }
+      });
+    }
   }
+
 
   constructor(public dialog: MatDialog) { }
   deleteData(element: any) {

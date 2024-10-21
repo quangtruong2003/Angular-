@@ -49,6 +49,7 @@ export interface Major {
     </h2>
     <mat-dialog-content>
       <form [formGroup]="form">
+      <input formControlName="id" type="hidden" />
         <mat-form-field style="width: 500px;">
           <mat-label>Name:</mat-label>
           <input matInput formControlName="full_name" cdkFocusInitial />
@@ -135,6 +136,7 @@ export class EditOverviewDialogComponent implements OnInit {
     private dialog: MatDialog
   ) {
     this.form = new FormGroup({
+      id: new FormControl(this.data.id),
       full_name: new FormControl(this.data.full_name, [Validators.required, Validators.minLength(3)]),
       age: new FormControl(this.data.age, [Validators.required, Validators.min(1), Validators.max(120)]),
       major: new FormControl(this.data.major, Validators.required),
@@ -193,6 +195,8 @@ export class EditOverviewDialogComponent implements OnInit {
   onSaveClick(): void {
     if (this.form.valid) {
       this.dialogRef.close(this.form.value);
+    } else{
+      this.form.markAllAsTouched();
     }
   }
 }
