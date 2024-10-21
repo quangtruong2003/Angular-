@@ -272,7 +272,7 @@ export class AppComponent implements OnInit {
 
   manageData(element?: any) {
     if (element) {
-      // Edit existing data
+      // Edit 
       const dialogRef = this.dialog.open(EditOverviewDialogComponent, {
         width: '800px',
         data: { ...element },
@@ -287,7 +287,7 @@ export class AppComponent implements OnInit {
         }
       });
     } else {
-      // Add new data
+      // Add 
       const dialogRef = this.dialog.open(AddOverviewDialogComponent, {
         width: '800px',
       });
