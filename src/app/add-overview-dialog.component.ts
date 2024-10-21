@@ -17,6 +17,7 @@ import {AsyncPipe} from '@angular/common';
 import {FormControl, ReactiveFormsModule, FormGroup} from '@angular/forms';
 import {Observable} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
+import { CommonModule } from '@angular/common';
 
 export interface Major {
   name: string;
@@ -38,6 +39,7 @@ export interface Major {
     MatAutocompleteModule,
     AsyncPipe,
     ReactiveFormsModule,
+    CommonModule,
   ],
   template: `
     <h2 style="text-align: center;" mat-dialog-title>Add Information
