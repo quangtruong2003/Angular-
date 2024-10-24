@@ -12,10 +12,10 @@ import { EditOverviewDialogComponent } from './edit-overview-dialog.component';
 import { FormsModule } from '@angular/forms';
 import { MatDialogModule } from '@angular/material/dialog';
 import { AddOverviewDialogComponent } from './add-overview-dialog.component';
-// Loại bỏ import HttpClientModule
-// import { HttpClientModule } from '@angular/common/http';
+
 import { DataService, User } from './services/data.service';
 import{ HttpClientModule, HttpClient } from '@angular/common/http';
+import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -30,11 +30,12 @@ import{ HttpClientModule, HttpClient } from '@angular/common/http';
     MatDialogModule,
     AddOverviewDialogComponent,
     HttpClientModule,
+    CommonModule
     
   ],
   providers: [
     DataService,
-    { provide: HttpClient, useClass: HttpClient } 
+    
   ],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
