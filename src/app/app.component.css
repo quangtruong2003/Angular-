@@ -8,4 +8,25 @@
     background-color: #d2d2d2;
     cursor: pointer;
   }
+  /* src/app/app.component.css hoặc styles.css */
+
+  .mat-table {
+    table-layout: fixed;
+    width: 100%;
+  }
   
+  .mat-column-id{
+    width: 50px; 
+  }
+  
+  .mat-column-age{
+    width: 100px; 
+  }
+  /* Xử lý tràn nội dung */
+  .mat-cell, .mat-header-cell {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .mdc-data-table__cell {
+    white-space: nowrap;
+  }

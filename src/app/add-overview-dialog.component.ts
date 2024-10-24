@@ -130,7 +130,8 @@ export class AddOverviewDialogComponent implements OnInit {
 
   constructor(
     public dialogRef: MatDialogRef<AddOverviewDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public incomingData: any
+    @Inject(MAT_DIALOG_DATA) public incomingData: any,
+    
   ) {
     this.form = new FormGroup({
       full_name: new FormControl('', [Validators.required, Validators.minLength(3)]),
@@ -170,6 +171,8 @@ export class AddOverviewDialogComponent implements OnInit {
   onSaveClick(): void {
     if (this.form.valid) {
       this.dialogRef.close(this.form.value);
+    }else{
+      this.form.markAllAsTouched();
     }
   }
 }

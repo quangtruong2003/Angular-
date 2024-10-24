@@ -34,8 +34,7 @@ import { CommonModule } from '@angular/common';
     
   ],
   providers: [
-    DataService,
-    
+    DataService, 
   ],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
@@ -76,7 +75,6 @@ export class AppComponent implements OnInit {
   manageData(element?: User) {
     if (element) {
       // Edit 
-      setTimeout(() => {
         const dialogRef = this.dialog.open(EditOverviewDialogComponent, {
         
           width: '800px',
@@ -91,13 +89,11 @@ export class AppComponent implements OnInit {
             );
           }
         });
-      }, 500);
-
-      
     } else {
       // Add 
       const dialogRef = this.dialog.open(AddOverviewDialogComponent, {
         width: '800px',
+        disableClose: true,
       });
 
       dialogRef.afterClosed().subscribe((result: Omit<User, 'id'> | undefined) => {
